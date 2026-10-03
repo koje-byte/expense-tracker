@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <header>
+      <!-- NavBar -->
+      <nav class="navbar navbar-expand-lg border-bottom sticky-top">
+        <div class="container">
+          <!-- Brand -->
+          <a class="navbar-brand fw-bold" href="#">
+            <i class="bi bi-wallet2 me-2"></i>Expense Tracker
+          </a>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNav"
+            aria-controls="mainNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Links -->
+          <div class="collapse navbar-collapse" id="mainNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html"
+                  >Dashboard</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#expenses">Expenses</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="charts.html">Charts</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Settings</a>
+              </li>
+            </ul>
+
+            <!-- Right side -->
+            <a href="#expenseForm" class="btn btn-primary">
+              <i class="bi bi-plus-lg me-1"></i>Add expense
+            </a>
+            <button
+              type="button"
+              class="btn btn-outline-secondary ms-3"
+              id="theme-toggle"
+            >
+              <i class="bi bi-moon"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <!-- Container for displaying alerts and a loading spinner -->
+      <div class="container mt-3">
+        <div id="alertBox"></div>
+        <div
+          id="spinner"
+          class="spinner-border text-primary d-none"
+          role="status"
+        >
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <div class="container my-4 cards">
+        <!-- Card 1: Total amount -->
+        <div class="">
+          <div class="card h-100">
+            <h5 class="card-header">Total expenses</h5>
+            <div class="card-body">
+              <h2 class="card-title" id="totalAmount"></h2>
+              <p class="card-text text-secondary">
+                Spent this month across all categories.
+              </p>
+              <a href="#" class="btn btn-primary">View all</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Number of expenses -->
+        <div class="">
+          <div class="card h-100">
+            <h5 class="card-header">Number of expenses</h5>
+            <div class="card-body">
+              <h2 class="card-title" id="expenseCount">0</h2>
+              <p class="card-text text-secondary">
+                Transactions recorded this month.
+              </p>
+              <a href="#" class="btn btn-primary">See list</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Highest expense -->
+        <div class="">
+          <div class="card h-100">
+            <h5 class="card-header">Highest expense</h5>
+            <div class="card-body">
+              <h2 class="card-title" id="highestExpense">$0</h2>
+              <p class="card-text text-secondary" id="highestInfo">
+                Monthly rent · Housing · Sep 1
+              </p>
+              <a href="#" class="btn btn-primary">View details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add expense Container-->
+      <div class="container">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title mb-3">Add expense</h5>
+
+            <form id="expenseForm" class="row g-3">
+              <div class="col-12 col-md-4">
+                <label for="titleE" class="form-label">Title</label>
+                <input
+                  type="text"
+                  id="title"
+                  class="form-control"
+                  placeholder="e.g. Weekly groceries"
+                  required
+                />
+              </div>
+
+              <div class="col-6 col-md-2">
+                <label for="amount" class="form-label">Amount</label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input
+                    type="number"
+                    id="amount"
+                    class="form-control"
+                    min="0.01"
+                    step="0.01"
+                    placeholder="0.00"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="col-6 col-md-3">
+                <label for="category" class="form-label">Category</label>
+                <select id="category" class="form-select" required>
+                  <option value="" selected disabled>Choose a category</option>
+                  <option>Food</option>
+                  <option value="Pizza">Pizza</option>
+                  <option>Transport</option>
+                  <option>Bills</option>
+                  <option>Entertainment</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div class="col-12 col-md-3">
+                <label for="date" class="form-label">Date</label>
+                <input type="date" id="date" class="form-control" required />
+              </div>
+
+              <div class="col-12 text-end">
+                <button type="reset" class="btn btn-outline-secondary">
+                  Clear
+                </button>
+                <button type="submit" id="addBtn" class="btn btn-primary">
+                  Save expense
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Table -->
+      <div class="container">
+        <div class="row mb-3">
+          <div class="col-12 col-md-4">
+            <label for="filterCategory" class="form-label"
+              >Filter by category</label
+            >
+            <select id="filterCategory" class="form-select">
+              <option value="All">All</option>
+              <option>Food</option>
+              <option>Transport</option>
+              <option>Bills</option>
+              <option>Entertainment</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-responsive" id="expenses">
+          <table class="table table-hover align-middle">
+            <thead class="table">
+              <tr>
+                <th>Title</th>
+                <th>
+                  <button
+                    type="button"
+                    class="btn btn-link text-body text-decoration-none p-0"
+                    id="SortAmount"
+                  >
+                    Amount <i class="bi bi-arrow-down-up"></i>
+                  </button>
+                </th>
+                <th>Category</th>
+                <th>Date</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="expenseBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">
+                Edit Expense
+              </h1>
+
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form id="editForm" class="row g-3">
+                <div class="col-12 col-md-4">
+                  <label for="titleE" class="form-label">Title</label>
+                  <input
+                    type="text"
+                    id="titleE"
+                    class="form-control"
+                    placeholder="e.g. Weekly groceries"
+                    required
+                  />
+                </div>
+
+                <div class="col-6 col-md-2">
+                  <label for="amountE" class="form-label">Amount</label>
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      id="amountE"
+                      class="form-control"
+                      min="0.01"
+                      step="0.01"
+                      placeholder="0.00"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                  <label for="categoryE" class="form-label">Category</label>
+                  <select id="categoryE" class="form-select" required>
+                    <option value="" selected disabled>
+                      Choose a category
+                    </option>
+                    <option>Food</option>
+                    <option>Transport</option>
+                    <option>Bills</option>
+                    <option>Entertainment</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+
+                <div class="col-12 col-md-3">
+                  <label for="dateE" class="form-label">Date</label>
+                  <input type="date" id="dateE" class="form-control" required />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" class="btn btn-primary" id="sv-change">
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="border-top mt-5">
+      <div class="container py-4">
+        <div class="row g-4 align-items-center">
+          <!-- Brand and description -->
+          <div class="col-12 col-md-6">
+            <a class="fw-bold text-decoration-none text-dark" href="#">
+              <i class="bi bi-wallet2 me-2"></i>Expense Tracker
+            </a>
+            <p class="text-secondary small mb-0 mt-2">
+              Track your spending, filter by category, and see where your money
+              goes.
+            </p>
+          </div>
+
+          <!-- Links -->
+          <div class="col-6 col-md-3">
+            <h6 class="text-uppercase small fw-semibold text-secondary">
+              Pages
+            </h6>
+            <ul class="list-unstyled small mb-0">
+              <li>
+                <a class="text-decoration-none text-secondary" href="#"
+                  >Dashboard</a
+                >
+              </li>
+              <li>
+                <a class="text-decoration-none text-secondary" href="#expenses"
+                  >Expenses</a
+                >
+              </li>
+              <li>
+                <a
+                  class="text-decoration-none text-secondary"
+                  href="#expenseForm"
+                  >Add expense</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Project links -->
+          <div class="col-6 col-md-3">
+            <h6 class="text-uppercase small fw-semibold text-secondary">
+              Project
+            </h6>
+            <ul class="list-unstyled small mb-0">
+              <li>
+                <a
+                  class="text-decoration-none text-secondary"
+                  href="https://github.com/koje-byte"
+                  >GitHub</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <div
+          class="d-flex flex-column flex-sm-row justify-content-between small text-secondary"
+        >
+          <span>&copy; 2026 Expense Tracker. All rights reserved.</span>
+          <span>Built with Bootstrap, Node.js and PostgreSQL</span>
+        </div>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

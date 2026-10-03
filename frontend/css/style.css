@@ -1,0 +1,9 @@
+/* Your custom styles go here.
+   Use Bootstrap classes first, and write your own CSS only when you need to. */
+.cards
+{
+   display: grid;
+   grid-template-columns: auto auto auto ;
+   gap: 1rem;
+
+}
